@@ -1,0 +1,20 @@
+{
+    "welcome": "Bienvenido",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "password_confirm": "Confirmar contraseña",
+    "remember": "Recuérdame",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "already_registered": "¿Ya tienes cuenta?",
+    "dont_have_account": "¿No tienes cuenta?",
+    "name": "Nombre",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver"
+}
