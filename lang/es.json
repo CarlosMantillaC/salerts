@@ -39,5 +39,7 @@
     "Are you sure you want to delete your account?": "¿Está seguro de que desea eliminar su cuenta?",
     "This action cannot be undone.": "Esta acción no se puede deshacer.",
     "Password": "Contraseña",
-    "Log Out": "Cerrar sesión"
+    "Log Out": "Cerrar sesión",
+    "current_password": "contraseña actual",
+    "The :attribute field is required.": "El campo :attribute es obligatorio."
 }
