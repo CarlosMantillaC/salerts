@@ -2,7 +2,8 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\FilamentRedirectToLogin;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -27,19 +28,26 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->authGuard('web')
             ->colors([
                 'primary' => Color::Red,
+                'gray' => Color::Slate,
+                'danger' => Color::Rose,
+                'info' => Color::Blue,
+                'success' => Color::Green,
+                'warning' => Color::Amber,
             ])
+            ->darkMode(true)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
                 Dashboard::class,
+                \App\Filament\Pages\Profile::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -53,7 +61,13 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                FilamentRedirectToLogin::class,
+            ])
+            ->userMenuItems([
+                Action::make('profile')
+                    ->label('Perfil')
+                    ->url(fn () => \App\Filament\Pages\Profile::getUrl())
+                    ->icon('heroicon-o-user'),
             ]);
     }
 }
