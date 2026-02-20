@@ -2,37 +2,32 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Pages\Page;
+use Filament\Auth\Pages\EditProfile as BaseEditProfile;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
 use Illuminate\Support\Facades\Auth;
 
-class Profile extends Page implements HasForms
+class Profile extends BaseEditProfile
 {
-    use InteractsWithForms;
-
-    protected string $view = 'filament.pages.profile';
-
-    protected static ?string $title = 'Perfil';
-
-    public static function shouldRegisterNavigation(): bool
+    protected function getNameFormComponent(): Component
     {
-        return false;
+        return TextInput::make('name')
+            ->label(__('filament-panels::auth/pages/edit-profile.form.name.label'))
+            ->required()
+            ->maxLength(255)
+            ->autofocus()
+            ->disabled(fn (): bool => ! Auth::user()->hasRole('Superadministrador'));
     }
 
-    public static function getUserMenuItems(): array
+    protected function getEmailFormComponent(): Component
     {
-        return [
-            [
-                'label' => 'Perfil',
-                'url' => static::getUrl(),
-                'icon' => 'heroicon-o-user',
-            ],
-        ];
-    }
-
-    public function getUser()
-    {
-        return Auth::user();
+        return TextInput::make('email')
+            ->label(__('filament-panels::auth/pages/edit-profile.form.email.label'))
+            ->email()
+            ->required()
+            ->maxLength(255)
+            ->unique(ignoreRecord: true)
+            ->live(debounce: 500)
+            ->disabled(fn (): bool => ! Auth::user()->hasRole('Superadministrador'));
     }
 }
